@@ -1,14 +1,17 @@
 from datetime import datetime
 import re 
+import random, os, sys
+from sys import argv
+from random import randrange, choice
+from time import sleep
+
 
 def welcome_screen():
-    print('Welcome to the Loop Card payment system for Hyperloop.')
-    print('This system allows you to add money to your card and charges your card for riding the Hyperloop.')
     print(datetime.now().strftime("\nToday is %A, %B %d, %Y"))
+    print('Welcome to the Loop Card payment system for Hyperloop.')
+    print('Please Enter Your Loop Card now.')
     
-
 welcome_screen()
-
 
 def new_card():
     while True:
@@ -19,7 +22,7 @@ def new_card():
         user_email = input("Enter your email address: ")
         if not(re.search(regex,user_email)):  
             print("Invalid Email")
-            email_notes.append("Your emails do not match. Please try again.")  
+            email_notes.append("Invalid email.")  
         if(re.search(regex,user_email)):  
             print("Valid Email")
         email_reentry = input("Please confirm your email by entering it again: ")
@@ -42,6 +45,9 @@ def new_card():
                 psw_notes.append("Pin number cannot be more than 4 characters")
             if len(psw_notes) == 0:
                 print("Your Pin number was entered correctly")
+                with open(f"{user_email}.txt","w") as f:
+                    f.write(str(user_email)+"\n")
+                    f.close()
                 break
             if len(psw_notes) == 4:
                 print("....Your card has been returned. Please try again.")
@@ -51,7 +57,6 @@ def new_card():
                     print(note)
         else:
             return new_card()
-
 
 def new_pin():
     while True:
@@ -73,9 +78,6 @@ def new_pin():
             for note in notes:
                 print(note)
     
-
-
-
 def pin_input():
     while True:
         notes = []
@@ -92,6 +94,18 @@ def pin_input():
         if len(notes) == 4:
             print("....Your card has been returned. Please try again.")
         if pin_number == '#98':
+            pin_validate = input("To change your pin, enter your old pin now:  ")
+            if not all(i.isdigit() for i in pin_validate):
+                notes.append("Pin number must consist of numbers only.")
+            if len(str(pin_validate)) < 4:
+                notes.append("Pin number must be at least 4 characters")
+            if len(str(pin_validate)) > 4:
+                notes.append("Pin number cannot be more than 4 characters")
+            if len(notes) == 0:
+                print("Your Pin number was entered correctly")
+                break
+            if len(notes) == 4:
+                print("....Your card has been returned. Please try again.")
             return new_pin()
         if pin_number == '#99':
             return new_card()
@@ -102,87 +116,89 @@ def pin_input():
 
 pin_input()
 
-
-
-
-automation = input('Press The Enter Key')
-automation = ['processing...', '10...', '20...', '30...', '40...', '50...', '60...', '70..', '80..', '90.', '100']
-for a in automation:
-    print(a)
-print('Automation Successful')
-
-print('How much would you like to recharge on your card?, You are adviced to recharge $30 dollars')
-
-Recharge_Amount = input()
-transaction = ['processing...', '10...', '20...', '30...', '40...', '50...', '60...', '70..', '80..', '90.', '100']
-for t in transaction:
-    print(t)
-print('Recharge Successful')
-
-print('Lists of stations')
-
-stations = ['5th', 'Pelham Parkway', 'Bronx', 'Guns Hill']
-for s in stations:
-    print (s)
-
-stations_select = input()
-
-print('Lists of zones')
-zones = ['zone 1', 'zone 2', 'zone 3']
-for z in zones:
-    print (z)
-
-print('Kindly move on through the barrier, swipe your card and select your fare')
-
-print('Below are the Fares for each journey, ' + ' Select a, b, or c.')
-print('              Journey                 |       Fare    ')
-print('(a)  Anywhere in Zone 1               |       $2.50   ')
-print('(b)  Any one zone outside Zone 1      |       $2.00   ')
-print('(c)  Any two zones including Zone 1   |       $3.00   ')
-print('(d)  Any two zones excluding Zone 1   |       $2.25   ')
-print('(e)  Any three zones                  |       $3.20   ')
-print('(f)  All bus journey                  |       $1.80   ')
-
-balance = 30
-journey = input()
-if journey == 'a':
-    print('Balance:')
-    print(30 - 2.50)
-    print('Your fare has been deducted, please proceed to your train')
-elif journey == 'b':
-    print('Balance:')
-    print(30 - 2.00)
-    print('Your fare has been deducted, please proceed to your train')
-elif journey == 'c':
-    print('Balance:')
-    print(30 - 3.00)
-    print('Your fare has been deducted, please proceed to your train')
-elif journey == 'd':
-    print('Balance:')
-    print(30 - 2.25)
-    print('Your fare has been deducted, please proceed to your train')
-elif journey == 'e':
-    print('Balance:')
-    print(30 - 3.20)
-    print('Your fare has been deducted, please proceed to your train')
-elif journey == 'f':
-    print('Balance:')
-    print(30 - 1.80)
-    print('Your fare has been deducted, please proceed to your train')
-else:
-    print('You have not selected any fare')
-    exit()
-
-
-
-
-
-"""
-bankaccount = input()
-if len(bankaccount) != 10:
-    print('Sorry, Incorrect Bank Account, try again')
-    bankaccount = input()
-if len(bankaccount) != 10:
-    print('Place your thumb on the sensor for automated derivation of bank details')
+def cc_checker():
+    #C/O Shankhesh-16: https://github.com/bl4ckbo7/PyCreditCardValidator/blob/master/Credit%20Card%20Validator.py
+    #This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, use this software, either in source code form or as a compiled binary
+    #In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit 
+    #of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.
+    #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    #IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    #For more information, please refer to <https://unlicense.org>
     
-"""
+    cc = input('Add money to your Loop Card now by entering your 16-digit credit card number: ')
+    credit_card_number = []
+    for digit in cc:
+        credit_card_number.append(digit)
+
+    if len(credit_card_number) > 0:
+
+        after_doubling_number = []
+        for index in range(len(credit_card_number)):
+            if index % 2 == 0:
+                after_doubling_number.append(int(credit_card_number[index]) * 2)
+            else:
+                after_doubling_number.append(int(credit_card_number[index]))
+
+        #print(after_doubling_number)
+
+        after_subtracting_list = []
+        for index1 in range(len(after_doubling_number)):
+            if index1 % 2 == 0 and after_doubling_number[index1] > 9:
+                nine_subtraction_value = after_doubling_number[index1] - 9
+                after_subtracting_list.append(nine_subtraction_value)
+            else:
+                after_subtracting_list.append(after_doubling_number[index1])
+
+        #print(after_subtracting_list)
+
+        list_to_number = ""
+        for index2 in range(len(credit_card_number)):
+            list_to_number += str(credit_card_number[index2])
+
+        sum_of_final_list = sum(after_subtracting_list)
+
+        if sum_of_final_list % 10 == 0:
+            print("VALID!!")
+            print(list_to_number)
+        else:
+            print("INVALID")
+            print(list_to_number)
+
+    else:
+        print('Please check the length of the number.')
+
+cc_checker()
+
+
+def loopcard_boost():
+    '''Passenger deposits funds to loop card (loop boost)'''
+    while True:
+        notes = []
+        balance = []
+        boost_values = ['5','10','20','40','60','80','100']
+        print('\nBOOST AMOUNTS: {}'.format(boost_values))
+        boost_amount = input('From the list above, enter an amount to add to your Loop Card: ')
+        if not all(i.isdigit() for i in boost_amount):
+                notes.append("Entry must consist of numbers only.")
+        
+        if boost_amount not in boost_values:
+            notes.append('Please enter a value from the list only: '.format(boost_values))
+
+        if len(notes) == 0:
+            balance.append(boost_amount)
+            print("\nSuccess!! Your Loop Card is now boosted with an extra ${}.".format(boost_amount))
+            print("CURRENT BALANCE: ${}".format(" ".join(balance)))
+            break
+            
+        else:
+            print("Please check the following: ")
+            for note in notes:
+                print(note)
+
+loopcard_boost()
+
+
+
+
+
+

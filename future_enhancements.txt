@@ -1,0 +1,6 @@
+LoopCard 
+    - When a passenger creates a new pin number, their old pin will not be able to be the same as the new pin. (saved to database)
+    - Credit Card Expiration Validator to check if user's card is expired. 
+    - Credit Card Fraud Detector
+    - To add funds on the loop card, user gets a verification code sent to their email or by text. 
+
