@@ -4,12 +4,10 @@ import random, os, sys
 from sys import argv
 from random import randrange, choice
 from time import sleep
+from welcome_window import welcome_screen
 
-
-def welcome_screen():
-    print(datetime.now().strftime("\nToday is %A, %B %d, %Y"))
-    print('Welcome to the Loop Card payment system for Hyperloop.')
-    print('Please Enter Your Loop Card now.')
+# Hyperloop card is for passengers who need to purchase a card at the station. Passengers who
+# may not have access to Wifi connection or who do not possess a Hyperloop app can use the card. 
     
 welcome_screen()
 
@@ -18,7 +16,8 @@ def new_card():
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
         email_notes = []
         psw_notes = []
-
+        #Since passenger may not have access to a wifi at time of purchase, the Loop Card will not send a confirmation email. 
+        #Passenger simply confirms their email twice for accuracy. 
         user_email = input("Enter your email address: ")
         if not(re.search(regex,user_email)):  
             print("Invalid Email")
@@ -117,6 +116,7 @@ def pin_input():
 pin_input()
 
 def cc_checker():
+    #The cc_checker was created c/o Shankhesh-16. Screenshot png files are included.
     #C/O Shankhesh-16: https://github.com/bl4ckbo7/PyCreditCardValidator/blob/master/Credit%20Card%20Validator.py
     #This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, use this software, either in source code form or as a compiled binary
     #In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit 
@@ -125,7 +125,7 @@ def cc_checker():
     #IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     #For more information, please refer to <https://unlicense.org>
     
-    cc = input('Add money to your Loop Card now by entering your 16-digit credit card number: ')
+    cc = input('Add money to your Loop Card now by entering your 16-digit debit card number: ')
     credit_card_number = []
     for digit in cc:
         credit_card_number.append(digit)
@@ -198,7 +198,29 @@ def loopcard_boost():
 loopcard_boost()
 
 
+def lc_exit_screen():
+    print(datetime.now().strftime("\n%A, %B %d, %Y"))
+    print('Thank you for using the Loop Card payment system for Hyperloop.')
+    print('Please take your card now.\n')
+    while True:
+        notes = []
+        pin_number = input("(press #98 to return your card or #92 to add more money to your card: ")
+        if not all(i.isdigit() for i in pin_number):
+            notes.append("Selection must consist of numbers only.")
+        if len(notes) == 4:
+            print("....Your card has been returned. Please try again.")
+        if pin_number == '92':
+            return loopcard_boost()
+        if pin_number == '#98':
+            print("...Please remember to take your card. Thanks for using Hyperloop!")
+        if len(notes) == 0:
+            print("Thanks for using the Hyperloop system. See you next time!")
+            break
+        else:
+            print("Please check the following: ")
+            for note in notes:
+                print(note)
 
-
+lc_exit_screen()
 
 

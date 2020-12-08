@@ -1,6 +1,35 @@
-LoopCard 
-    - When a passenger creates a new pin number, their old pin will not be able to be the same as the new pin. (saved to database)
-    - Credit Card Expiration Validator to check if user's card is expired. 
-    - Credit Card Fraud Detector
-    - To add funds on the loop card, user gets a verification code sent to their email or by text. 
+Future enhancements of the Hyperloop DTLA station system to include the following:
 
+LOOPCARD
+    - When a passenger creates a new pin number, their old pin will not be able to be the same as the new pin. (saved to database)
+    - Credit Card 
+        - Credit Card Expiration Validator to check if user's card is expired. 
+        - Credit Card Fraud Detector
+        - CC enter expiration date
+        - CC enter zip code
+        - CC enter 3 digit-code
+    - If user forgets pin, user must validate that they own the Loop Card by entering their email address and the last 4 digits of the 
+      credit card that was used to add funds to the Loop Card. 
+
+
+HYPERLOOP PRICING      
+    -SENIOR/DISABLED/MEDICARE pricing
+        25% off Monthly Pass and 7-Day Pass
+        50% off One-Way and Round-Trip tickets
+        Seniors qualify for discount if age is 65 or over.
+        
+    -STUDENT/YOUTH pricing
+        *Youths: Ages 6 to 18
+            -25% off Monthly Pass, 7-Day Pass, One-Way and Round-Trip tickets
+            - Students: Please present valid Student ID to the fare inspector upon request.
+    -ACTIVE MILITARY pricing
+        10% off One-Way and Round-Trip tickets
+
+TICKETS 
+    -Rider to be able to purchase roundtrip tickets.
+    -Tickets expire after a certain amount of time or days. 
+
+
+ROUTES
+    -Scheduling  (Allow riders to pick the time of day to ride a Hyperloop)
+    
