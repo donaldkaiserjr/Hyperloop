@@ -1,7 +1,11 @@
 from datetime import datetime
-
+import dtla19
+import time
 
 def welcome_screen():
-    print(datetime.now().strftime("\nToday is %A, %B %d, %Y"))
-    print('Welcome to the Loop Card payment system for Hyperloop.')
-    print('Please Enter Your Loop Card now or press #100 to purchase a ticket using cash. ')
+    print('\nWelcome to Hyperloop @ Union Station, Downtown Los Angeles DTLA-19.')
+    print(datetime.now().strftime("Today is %A, %B %d, %Y\n"))
+    time.sleep(1)
+
+
+#welcome_screen()

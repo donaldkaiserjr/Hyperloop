@@ -32,4 +32,7 @@ TICKETS
 
 ROUTES
     -Scheduling  (Allow riders to pick the time of day to ride a Hyperloop)
-    
+
+
+DRY Coding
+    - Make repetitive coding DRY.  Keypad entries (example PRESS 0 to Exit) can be placed in one function and called throughout the app.

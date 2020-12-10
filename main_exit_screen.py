@@ -1,5 +1,5 @@
 from datetime import datetime
 
 def exit_screen():
-    print(datetime.now().strftime("\n%A, %B %d, %Y"))
-    print('Thank you for using the Hyperloop propulsion system.')
+    print('\nThank you for using the Hyperloop propulsion system.')
+    print(datetime.now().strftime("%A %B %d, %Y\n\n"))
